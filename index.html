@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Trinity PC" />
+  <meta name="theme-color" content="#0a0a0f" />
+  <title>Trinity PC Build</title>
+  <style>
+    :root { --bg:#0a0a0f; --surface:#14141c; --surface2:#1c1c28; --border:#2a2a3a; --text:#f0f0f5; --text-muted:#9898a8; --accent:#7c5cff; --accent-dim:#5a3fd4; --green:#22c55e; --orange:#f59e0b; --card-radius:16px; --safe-top:env(safe-area-inset-top,0px); --safe-bottom:env(safe-area-inset-bottom,0px); }
+    * { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
+    html,body { height:100%; background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,sans-serif; line-height:1.4; }
+    body { padding:calc(12px + var(--safe-top)) 14px calc(24px + var(--safe-bottom)); max-width:480px; margin:0 auto; }
+    header { text-align:center; padding:8px 0 20px; }
+    .badge { display:inline-block; background:linear-gradient(135deg,var(--accent),#a78bfa); color:#fff; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:4px 12px; border-radius:999px; margin-bottom:10px; }
+    h1 { font-size:28px; font-weight:800; letter-spacing:-.03em; margin-bottom:4px; }
+    .subtitle { color:var(--text-muted); font-size:14px; }
+    .progress-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--card-radius); padding:16px; margin-bottom:20px; }
+    .progress-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; font-size:13px; font-weight:600; }
+    .progress-bar { height:10px; background:var(--surface2); border-radius:999px; overflow:hidden; }
+    .progress-fill { height:100%; background:linear-gradient(90deg,var(--accent),#a78bfa); border-radius:999px; width:0%; transition:width .35s ease; }
+    .totals { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:14px; text-align:center; }
+    .total-item { background:var(--surface2); border-radius:12px; padding:10px 6px; }
+    .total-label { font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.04em; margin-bottom:2px; }
+    .total-value { font-size:15px; font-weight:700; }
+    .purchased { color:var(--green); } .remaining { color:var(--orange); }
+    section { margin-bottom:22px; }
+    .section-header { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+    .section-title { font-size:15px; font-weight:700; flex:1; }
+    .section-count { font-size:12px; color:var(--text-muted); background:var(--surface2); padding:3px 9px; border-radius:999px; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--card-radius); overflow:hidden; }
+    .item { display:flex; align-items:flex-start; gap:12px; padding:14px; border-bottom:1px solid var(--border); }
+    .item:last-child { border-bottom:none; }
+    .item.checked { opacity:.55; }
+    .item.checked .item-name { text-decoration:line-through; color:var(--text-muted); }
+    .check-wrap { position:relative; width:24px; height:24px; flex-shrink:0; margin-top:1px; }
+    .check-wrap input { position:absolute; opacity:0; width:100%; height:100%; z-index:2; }
+    .checkmark { position:absolute; inset:0; border:2px solid var(--border); border-radius:7px; background:var(--surface2); }
+    .check-wrap input:checked + .checkmark { background:var(--green); border-color:var(--green); }
+    .checkmark::after { content:""; position:absolute; display:none; left:7px; top:3px; width:5px; height:10px; border:solid white; border-width:0 2.5px 2.5px 0; transform:rotate(45deg); }
+    .check-wrap input:checked + .checkmark::after { display:block; }
+    .item-name { font-size:14px; font-weight:600; margin-bottom:3px; }
+    .item-meta { font-size:12px; color:var(--text-muted); }
+    .price { font-weight:600; color:var(--text); }
+    .price.sale { color:var(--green); }
+    .notes-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--card-radius); padding:16px; }
+    .notes-card h3 { font-size:14px; margin-bottom:10px; }
+    .note { font-size:13px; color:var(--text-muted); margin-bottom:10px; padding-left:12px; border-left:3px solid var(--accent); }
+    .wattage { margin-top:14px; background:var(--surface2); border-radius:12px; padding:12px; text-align:center; }
+    .wattage-label { font-size:11px; color:var(--text-muted); text-transform:uppercase; }
+    .wattage-value { font-size:20px; font-weight:800; margin:2px 0; }
+    .wattage-bar { height:6px; background:#1a1a24; border-radius:999px; margin-top:8px; overflow:hidden; }
+    .wattage-fill { height:100%; width:57%; background:linear-gradient(90deg,var(--green),#4ade80); }
+    .actions { display:flex; gap:10px; margin-top:20px; }
+    button { flex:1; border:none; border-radius:14px; padding:14px; font-size:14px; font-weight:600; font-family:inherit; }
+    .btn-reset { background:var(--surface2); color:var(--text-muted); border:1px solid var(--border); }
+    .btn-add { background:linear-gradient(135deg,var(--accent),var(--accent-dim)); color:#fff; }
+    .home-tip { margin-top:18px; text-align:center; font-size:12px; color:var(--text-muted); display:none; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="badge">PC Build</div>
+    <h1>Trinity</h1>
+    <p class="subtitle">Reusing parts from Genesis (2019)</p>
+  </header>
+  <div class="progress-card">
+    <div class="progress-header"><span>Build Progress</span><span id="progress-text">0 / 16</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="totals">
+      <div class="total-item"><div class="total-label">Purchased</div><div class="total-value purchased">$1,094.92</div></div>
+      <div class="total-item"><div class="total-label">Remaining</div><div class="total-value remaining">$1,708.82</div></div>
+      <div class="total-item"><div class="total-label">Total</div><div class="total-value">$2,803.74</div></div>
+    </div>
+  </div>
+  <section>
+    <div class="section-header"><span>♻️</span><span class="section-title">From Genesis (Owned)</span><span class="section-count" id="count-owned">0/6</span></div>
+    <div class="card" id="owned-list"></div>
+  </section>
+  <section>
+    <div class="section-header"><span>🛠️</span><span class="section-title">Needed to Build</span><span class="section-count" id="count-build">0/5</span></div>
+    <div class="card" id="build-list"></div>
+  </section>
+  <section>
+    <div class="section-header"><span>✨</span><span class="section-title">Needed to Complete</span><span class="section-count" id="count-complete">0/5</span></div>
+    <div class="card" id="complete-list"></div>
+  </section>
+  <section>
+    <div class="notes-card">
+      <h3>⚠️ Compatibility Notes</h3>
+      <div class="note">A USB 3.2 Gen 1 to USB 2.0 Header Adapter is required to use the second set of case fans.</div>
+      <div class="note">The front panel USB 3.2 Gen 2 Type-C port needs a motherboard header that is not available on the Z370 board — this port will not be usable.</div>
+      <div class="wattage">
+        <div class="wattage-label">Estimated System Power</div>
+        <div class="wattage-value">428 W <span style="font-size:14px;font-weight:500;color:var(--text-muted)">/ 750 W</span></div>
+        <div class="wattage-bar"><div class="wattage-fill"></div></div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">~57% headroom — excellent</div>
+      </div>
+    </div>
+  </section>
+  <div class="actions">
+    <button class="btn-reset" onclick="resetAll()">Reset Checks</button>
+    <button class="btn-add" onclick="showAddTip()">Add to Home</button>
+  </div>
+  <p class="home-tip" id="home-tip">In Safari: tap Share (square with arrow) then Add to Home Screen. Name it Trinity.</p>
+  <script>
+    const DATA = {
+      owned: [
+        {id:"cpu",name:"Intel Core i7-8700",desc:"3.2 GHz 6-Core Processor",price:"$299.99"},
+        {id:"mb",name:"Asus ROG STRIX Z370-F GAMING",desc:"ATX LGA1151 Motherboard",price:"$194.99"},
+        {id:"ram",name:"G.Skill Trident Z RGB 16 GB",desc:"(2 x 8 GB) DDR4-3600 CL18 x2",price:"$69.99 x2"},
+        {id:"hdd",name:"Seagate BarraCuda 1 TB",desc:"3.5 inch 7200 RPM HDD",price:"$49.99"},
+        {id:"ssd",name:"Samsung 850 Evo 250 GB",desc:"2.5 inch Solid State Drive",price:"$59.99"},
+        {id:"os",name:"Windows 11 Pro OEM",desc:"64-bit DVD",price:"$129.99"}
+      ],
+      build: [
+        {id:"case",name:"Lian Li O11D EVO RGB",desc:"ATX Mid Tower Case",price:"$159.99",store:"Amazon"},
+        {id:"gpu",name:"MSI GAMING OC RTX 5060 Ti 8 GB",desc:"GeForce Video Card",price:"$519.99",sale:"$379.99",store:"Sale @ Micro Center"},
+        {id:"psu",name:"MSI MAG A750GL PCIE5",desc:"750 W 80+ Gold Fully Modular",price:"$84.99",store:"Micro Center"},
+        {id:"cooler",name:"NZXT Kraken Plus 240 RGB",desc:"75.05 CFM Liquid CPU Cooler",price:"$89.99",store:"Micro Center"},
+        {id:"fans",name:"Corsair iCUE LINK RX120",desc:"74.2 CFM 120 mm Fans 3-Pack x2",price:"$79.99 x2",store:"Amazon"}
+      ],
+      complete: [
+        {id:"storage",name:"KingSpec P3 2 TB",desc:"2.5 inch Solid State Drive",price:"$219.99",store:"Amazon"},
+        {id:"mouse",name:"Logitech G703 LIGHTSPEED",desc:"Wireless Optical Mouse",price:"$68.96",store:"Amazon"},
+        {id:"headset",name:"Astro A20 Gen 2",desc:"Wireless Headset",price:"$79.99",store:"Amazon"},
+        {id:"monitor",name:"KTC 34 inch Ultrawide Curved",desc:"3440x1440 UWQHD 180 Hz H34S5",price:"$259.99",store:"Amazon"},
+        {id:"keyboard",name:"Logitech G PRO X TKL Rapid",desc:"Tenkeyless Gaming Keyboard",price:"$149.99",store:"Amazon"}
+      ]
+    };
+    function loadState(){ try { return JSON.parse(localStorage.getItem("trinity-checks")||"{}"); } catch(e){ return {}; } }
+    function saveState(s){ try { localStorage.setItem("trinity-checks", JSON.stringify(s)); } catch(e){} }
+    let state = loadState();
+    function renderItem(item){
+      const checked = !!state[item.id];
+      const saleHtml = item.sale ? '<span class="price sale">'+item.sale+' sale</span> <span style="text-decoration:line-through;opacity:.6">'+item.price+'</span>' : '<span class="price">'+item.price+'</span>';
+      const storeHtml = item.store ? ' · '+item.store : '';
+      return '<div class="item '+(checked?'checked':'')+'"><div class="check-wrap"><input type="checkbox" '+(checked?'checked':'')+' onchange="toggle(\''+item.id+'\')" /><div class="checkmark"></div></div><div><div class="item-name">'+item.name+'</div><div class="item-meta">'+item.desc+'</div><div class="item-meta" style="margin-top:4px">'+saleHtml+storeHtml+'</div></div></div>';
+    }
+    function render(){
+      document.getElementById("owned-list").innerHTML = DATA.owned.map(renderItem).join("");
+      document.getElementById("build-list").innerHTML = DATA.build.map(renderItem).join("");
+      document.getElementById("complete-list").innerHTML = DATA.complete.map(renderItem).join("");
+      updateProgress();
+    }
+    function toggle(id){ state[id] = !state[id]; saveState(state); render(); }
+    function updateProgress(){
+      const all = DATA.owned.concat(DATA.build, DATA.complete);
+      const checked = all.filter(function(i){ return state[i.id]; }).length;
+      document.getElementById("progress-text").textContent = checked+' / '+all.length;
+      document.getElementById("progress-fill").style.width = (checked/all.length*100)+'%';
+      function c(a){ return a.filter(function(i){ return state[i.id]; }).length+'/'+a.length; }
+      document.getElementById("count-owned").textContent = c(DATA.owned);
+      document.getElementById("count-build").textContent = c(DATA.build);
+      document.getElementById("count-complete").textContent = c(DATA.complete);
+    }
+    function resetAll(){ if(confirm("Clear all checkmarks?")){ state={}; saveState(state); render(); } }
+    function showAddTip(){ var t=document.getElementById("home-tip"); t.style.display = t.style.display==="block"?"none":"block"; }
+    render();
+    if(Object.keys(state).length===0){ DATA.owned.forEach(function(i){ state[i.id]=true; }); saveState(state); render(); }
+  </script>
+</body>
+</html>
