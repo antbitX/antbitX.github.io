@@ -70,9 +70,9 @@
     <div class="progress-header"><span>Build Progress</span><span id="progress-text">0 / 16</span></div>
     <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
     <div class="totals">
-      <div class="total-item"><div class="total-label">Purchased</div><div class="total-value purchased">$1,094.92</div></div>
-      <div class="total-item"><div class="total-label">Remaining</div><div class="total-value remaining">$1,708.82</div></div>
-      <div class="total-item"><div class="total-label">Total</div><div class="total-value">$2,803.74</div></div>
+      <div class="total-item"><div class="total-label">Purchased</div><div class="total-value purchased" id="val-purchased">$0.00</div></div>
+      <div class="total-item"><div class="total-label">Remaining</div><div class="total-value remaining" id="val-remaining">$0.00</div></div>
+      <div class="total-item"><div class="total-label">Total</div><div class="total-value" id="val-total">$0.00</div></div>
     </div>
   </div>
   <section>
@@ -104,39 +104,41 @@
     <button class="btn-reset" onclick="resetAll()">Reset Checks</button>
     <button class="btn-add" onclick="showAddTip()">Add to Home</button>
   </div>
-  <p class="home-tip" id="home-tip">In Safari: tap Share (square with arrow) then Add to Home Screen. Name it Trinity.</p>
+  <p class="home-tip" id="home-tip">In Safari: tap Share then Add to Home Screen. Name it Trinity.</p>
   <script>
     const DATA = {
       owned: [
-        {id:"cpu",name:"Intel Core i7-8700",desc:"3.2 GHz 6-Core Processor",price:"$299.99"},
-        {id:"mb",name:"Asus ROG STRIX Z370-F GAMING",desc:"ATX LGA1151 Motherboard",price:"$194.99"},
-        {id:"ram",name:"G.Skill Trident Z RGB 16 GB",desc:"(2 x 8 GB) DDR4-3600 CL18 x2",price:"$69.99 x2"},
-        {id:"hdd",name:"Seagate BarraCuda 1 TB",desc:"3.5 inch 7200 RPM HDD",price:"$49.99"},
-        {id:"ssd",name:"Samsung 850 Evo 250 GB",desc:"2.5 inch Solid State Drive",price:"$59.99"},
-        {id:"os",name:"Windows 11 Pro OEM",desc:"64-bit DVD",price:"$129.99"}
+        {id:"cpu",name:"Intel Core i7-8700",desc:"3.2 GHz 6-Core Processor",price:"$299.99",cost:299.99},
+        {id:"mb",name:"Asus ROG STRIX Z370-F GAMING",desc:"ATX LGA1151 Motherboard",price:"$194.99",cost:194.99},
+        {id:"ram",name:"G.Skill Trident Z RGB 16 GB",desc:"(2 x 8 GB) DDR4-3600 CL18 x2",price:"$69.99 x2",cost:139.98},
+        {id:"hdd",name:"Seagate BarraCuda 1 TB",desc:"3.5 inch 7200 RPM HDD",price:"$49.99",cost:49.99},
+        {id:"ssd",name:"Samsung 850 Evo 250 GB",desc:"2.5 inch Solid State Drive",price:"$59.99",cost:59.99},
+        {id:"os",name:"Windows 11 Pro OEM",desc:"64-bit DVD",price:"$129.99",cost:129.99}
       ],
       build: [
-        {id:"case",name:"Lian Li O11D EVO RGB",desc:"ATX Mid Tower Case",price:"$159.99",store:"Amazon"},
-        {id:"gpu",name:"MSI GAMING OC RTX 5060 Ti 8 GB",desc:"GeForce Video Card",price:"$519.99",sale:"$379.99",store:"Sale @ Micro Center"},
-        {id:"psu",name:"MSI MAG A750GL PCIE5",desc:"750 W 80+ Gold Fully Modular",price:"$84.99",store:"Micro Center"},
-        {id:"cooler",name:"NZXT Kraken Plus 240 RGB",desc:"75.05 CFM Liquid CPU Cooler",price:"$89.99",store:"Micro Center"},
-        {id:"fans",name:"Corsair iCUE LINK RX120",desc:"74.2 CFM 120 mm Fans 3-Pack x2",price:"$79.99 x2",store:"Amazon"}
+        {id:"case",name:"Lian Li O11D EVO RGB",desc:"ATX Mid Tower Case",price:"$159.99",cost:159.99,store:"Amazon"},
+        {id:"gpu",name:"MSI GAMING OC RTX 5060 Ti 8 GB",desc:"GeForce Video Card",price:"$519.99",sale:"$379.99",cost:379.99,store:"Sale @ Micro Center"},
+        {id:"psu",name:"MSI MAG A750GL PCIE5",desc:"750 W 80+ Gold Fully Modular",price:"$84.99",cost:84.99,store:"Micro Center"},
+        {id:"cooler",name:"NZXT Kraken Plus 240 RGB",desc:"75.05 CFM Liquid CPU Cooler",price:"$89.99",cost:89.99,store:"Micro Center"},
+        {id:"fans",name:"Corsair iCUE LINK RX120",desc:"74.2 CFM 120 mm Fans 3-Pack x2",price:"$79.99 x2",cost:159.98,store:"Amazon"}
       ],
       complete: [
-        {id:"storage",name:"KingSpec P3 2 TB",desc:"2.5 inch Solid State Drive",price:"$219.99",store:"Amazon"},
-        {id:"mouse",name:"Logitech G703 LIGHTSPEED",desc:"Wireless Optical Mouse",price:"$68.96",store:"Amazon"},
-        {id:"headset",name:"Astro A20 Gen 2",desc:"Wireless Headset",price:"$79.99",store:"Amazon"},
-        {id:"monitor",name:"KTC 34 inch Ultrawide Curved",desc:"3440x1440 UWQHD 180 Hz H34S5",price:"$259.99",store:"Amazon"},
-        {id:"keyboard",name:"Logitech G PRO X TKL Rapid",desc:"Tenkeyless Gaming Keyboard",price:"$149.99",store:"Amazon"}
+        {id:"storage",name:"KingSpec P3 2 TB",desc:"2.5 inch Solid State Drive",price:"$219.99",cost:219.99,store:"Amazon"},
+        {id:"mouse",name:"Logitech G703 LIGHTSPEED",desc:"Wireless Optical Mouse",price:"$68.96",cost:68.96,store:"Amazon"},
+        {id:"headset",name:"Astro A20 Gen 2",desc:"Wireless Headset",price:"$79.99",cost:79.99,store:"Amazon"},
+        {id:"monitor",name:"KTC 34 inch Ultrawide Curved",desc:"3440x1440 UWQHD 180 Hz H34S5",price:"$259.99",cost:259.99,store:"Amazon"},
+        {id:"keyboard",name:"Logitech G PRO X TKL Rapid",desc:"Tenkeyless Gaming Keyboard",price:"$149.99",cost:149.99,store:"Amazon"}
       ]
     };
+    function allItems(){ return DATA.owned.concat(DATA.build, DATA.complete); }
+    function money(n){ return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
     function loadState(){ try { return JSON.parse(localStorage.getItem("trinity-checks")||"{}"); } catch(e){ return {}; } }
     function saveState(s){ try { localStorage.setItem("trinity-checks", JSON.stringify(s)); } catch(e){} }
-    let state = loadState();
+    var state = loadState();
     function renderItem(item){
-      const checked = !!state[item.id];
-      const saleHtml = item.sale ? '<span class="price sale">'+item.sale+' sale</span> <span style="text-decoration:line-through;opacity:.6">'+item.price+'</span>' : '<span class="price">'+item.price+'</span>';
-      const storeHtml = item.store ? ' · '+item.store : '';
+      var checked = !!state[item.id];
+      var saleHtml = item.sale ? '<span class="price sale">'+item.sale+' sale</span> <span style="text-decoration:line-through;opacity:.6">'+item.price+'</span>' : '<span class="price">'+item.price+'</span>';
+      var storeHtml = item.store ? ' · '+item.store : '';
       return '<div class="item '+(checked?'checked':'')+'"><div class="check-wrap"><input type="checkbox" '+(checked?'checked':'')+' onchange="toggle(\''+item.id+'\')" /><div class="checkmark"></div></div><div><div class="item-name">'+item.name+'</div><div class="item-meta">'+item.desc+'</div><div class="item-meta" style="margin-top:4px">'+saleHtml+storeHtml+'</div></div></div>';
     }
     function render(){
@@ -147,10 +149,19 @@
     }
     function toggle(id){ state[id] = !state[id]; saveState(state); render(); }
     function updateProgress(){
-      const all = DATA.owned.concat(DATA.build, DATA.complete);
-      const checked = all.filter(function(i){ return state[i.id]; }).length;
-      document.getElementById("progress-text").textContent = checked+' / '+all.length;
-      document.getElementById("progress-fill").style.width = (checked/all.length*100)+'%';
+      var all = allItems();
+      var checkedCount = 0, purchased = 0, remaining = 0, total = 0;
+      for (var i=0;i<all.length;i++){
+        var item = all[i];
+        total += item.cost;
+        if (state[item.id]) { checkedCount++; purchased += item.cost; }
+        else { remaining += item.cost; }
+      }
+      document.getElementById("progress-text").textContent = checkedCount+' / '+all.length;
+      document.getElementById("progress-fill").style.width = (checkedCount/all.length*100)+'%';
+      document.getElementById("val-purchased").textContent = money(purchased);
+      document.getElementById("val-remaining").textContent = money(remaining);
+      document.getElementById("val-total").textContent = money(total);
       function c(a){ return a.filter(function(i){ return state[i.id]; }).length+'/'+a.length; }
       document.getElementById("count-owned").textContent = c(DATA.owned);
       document.getElementById("count-build").textContent = c(DATA.build);
@@ -158,8 +169,8 @@
     }
     function resetAll(){ if(confirm("Clear all checkmarks?")){ state={}; saveState(state); render(); } }
     function showAddTip(){ var t=document.getElementById("home-tip"); t.style.display = t.style.display==="block"?"none":"block"; }
+    if(Object.keys(state).length===0){ DATA.owned.forEach(function(i){ state[i.id]=true; }); saveState(state); }
     render();
-    if(Object.keys(state).length===0){ DATA.owned.forEach(function(i){ state[i.id]=true; }); saveState(state); render(); }
   </script>
 </body>
 </html>
