@@ -48,13 +48,11 @@
     .price { font-weight:600; color:var(--text); }
     .price.sale { color:var(--green); }
     .notes-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--card-radius); padding:16px; }
-    .notes-card h3 { font-size:14px; margin-bottom:10px; }
-    .note { font-size:13px; color:var(--text-muted); margin-bottom:10px; padding-left:12px; border-left:3px solid var(--accent); }
-    .wattage { margin-top:14px; background:var(--surface2); border-radius:12px; padding:12px; text-align:center; }
+    .wattage { background:var(--surface2); border-radius:12px; padding:12px; text-align:center; }
     .wattage-label { font-size:11px; color:var(--text-muted); text-transform:uppercase; }
     .wattage-value { font-size:20px; font-weight:800; margin:2px 0; }
     .wattage-bar { height:6px; background:#1a1a24; border-radius:999px; margin-top:8px; overflow:hidden; }
-    .wattage-fill { height:100%; width:65%; background:linear-gradient(90deg,var(--green),#4ade80); }
+    .wattage-fill { height:100%; width:72.5%; background:linear-gradient(90deg,var(--green),#4ade80); }
     .actions { display:flex; gap:10px; margin-top:20px; }
     button { flex:1; border:none; border-radius:14px; padding:14px; font-size:14px; font-weight:600; font-family:inherit; }
     .btn-reset { background:var(--surface2); color:var(--text-muted); border:1px solid var(--border); }
@@ -105,14 +103,11 @@
   </section>
   <section>
     <div class="notes-card">
-      <h3>⚠️ Compatibility Notes</h3>
-      <div class="note">Existing DDR4 RAM is compatible with the MSI PRO B760-P WIFI DDR4 board.</div>
-      <div class="note">Confirm front-panel USB-C header on the B760 board in the manual.</div>
       <div class="wattage">
         <div class="wattage-label">Estimated System Power</div>
-        <div class="wattage-value">~450–500 W <span style="font-size:14px;font-weight:500;color:var(--text-muted)">/ 750 W</span></div>
+        <div class="wattage-value">544 W <span style="font-size:14px;font-weight:500;color:var(--text-muted)">/ 750 W</span></div>
         <div class="wattage-bar"><div class="wattage-fill"></div></div>
-        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">Headroom still strong with 13600K</div>
+        <div style="font-size:11px;color:var(--text-muted);margin-top:6px;">~72% load — solid headroom</div>
       </div>
     </div>
   </section>
