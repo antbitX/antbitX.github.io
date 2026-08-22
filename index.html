@@ -27,9 +27,11 @@
     .total-value { font-size:15px; font-weight:700; }
     .purchased { color:var(--green); } .remaining { color:var(--orange); }
     section { margin-bottom:22px; }
-    .section-header { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
-    .section-title { font-size:15px; font-weight:700; flex:1; }
+    .section-header { display:flex; align-items:center; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+    .section-title { font-size:15px; font-weight:700; flex:1; min-width:120px; }
+    .section-meta { display:flex; gap:6px; align-items:center; }
     .section-count { font-size:12px; color:var(--text-muted); background:var(--surface2); padding:3px 9px; border-radius:999px; }
+    .section-total { font-size:12px; font-weight:600; color:var(--orange); background:rgba(245,158,11,0.12); padding:3px 9px; border-radius:999px; }
     .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--card-radius); overflow:hidden; }
     .item { display:flex; align-items:flex-start; gap:12px; padding:14px; border-bottom:1px solid var(--border); }
     .item:last-child { border-bottom:none; }
@@ -80,11 +82,25 @@
     <div class="card" id="owned-list"></div>
   </section>
   <section>
-    <div class="section-header"><span>🛠️</span><span class="section-title">Needed to Build</span><span class="section-count" id="count-build">0/6</span></div>
+    <div class="section-header">
+      <span>🛠️</span>
+      <span class="section-title">Needed to Build</span>
+      <span class="section-meta">
+        <span class="section-count" id="count-build">0/6</span>
+        <span class="section-total" id="total-build">$0</span>
+      </span>
+    </div>
     <div class="card" id="build-list"></div>
   </section>
   <section>
-    <div class="section-header"><span>✨</span><span class="section-title">Needed to Complete</span><span class="section-count" id="count-complete">0/5</span></div>
+    <div class="section-header">
+      <span>✨</span>
+      <span class="section-title">Needed to Complete</span>
+      <span class="section-meta">
+        <span class="section-count" id="count-complete">0/5</span>
+        <span class="section-total" id="total-complete">$0</span>
+      </span>
+    </div>
     <div class="card" id="complete-list"></div>
   </section>
   <section>
@@ -132,6 +148,11 @@
     };
     function allItems(){ return DATA.owned.concat(DATA.build, DATA.complete); }
     function money(n){ return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+    function sectionRemaining(arr){
+      var sum = 0;
+      for (var i=0;i<arr.length;i++){ if (!state[arr[i].id]) sum += arr[i].cost; }
+      return sum;
+    }
     function loadState(){ try { return JSON.parse(localStorage.getItem("trinity-checks")||"{}"); } catch(e){ return {}; } }
     function saveState(s){ try { localStorage.setItem("trinity-checks", JSON.stringify(s)); } catch(e){} }
     var state = loadState();
@@ -166,6 +187,8 @@
       document.getElementById("count-owned").textContent = c(DATA.owned);
       document.getElementById("count-build").textContent = c(DATA.build);
       document.getElementById("count-complete").textContent = c(DATA.complete);
+      document.getElementById("total-build").textContent = money(sectionRemaining(DATA.build));
+      document.getElementById("total-complete").textContent = money(sectionRemaining(DATA.complete));
     }
     function resetAll(){ if(confirm("Clear all checkmarks?")){ state={}; saveState(state); render(); } }
     function showAddTip(){ var t=document.getElementById("home-tip"); t.style.display = t.style.display==="block"?"none":"block"; }
