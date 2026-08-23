@@ -67,7 +67,7 @@
     <p class="subtitle">Reusing parts from Genesis (2019)</p>
   </header>
   <div class="progress-card">
-    <div class="progress-header"><span>Build Progress</span><span id="progress-text">0 / 17</span></div>
+    <div class="progress-header"><span>Build Progress</span><span id="progress-text">0 / 15</span></div>
     <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
     <div class="totals">
       <div class="total-item"><div class="total-label">Purchased</div><div class="total-value purchased" id="val-purchased">$0.00</div></div>
@@ -76,7 +76,7 @@
     </div>
   </div>
   <section>
-    <div class="section-header"><span>♻️</span><span class="section-title">From Genesis (Owned)</span><span class="section-count" id="count-owned">0/4</span></div>
+    <div class="section-header"><span>♻️</span><span class="section-title">From Genesis (Owned)</span><span class="section-count" id="count-owned">0/3</span></div>
     <div class="card" id="owned-list"></div>
   </section>
   <section>
@@ -84,7 +84,7 @@
       <span>🛠️</span>
       <span class="section-title">Needed to Build</span>
       <span class="section-meta">
-        <span class="section-count" id="count-build">0/8</span>
+        <span class="section-count" id="count-build">0/7</span>
         <span class="section-total" id="total-build">$0</span>
       </span>
     </div>
@@ -119,14 +119,12 @@
   <script>
     const DATA = {
       owned: [
-        {id:"ram",name:"G.Skill Trident Z RGB 16 GB",desc:"(2 x 8 GB) DDR4-3600 CL18 x2",price:"$69.99 x2",cost:139.98},
         {id:"hdd",name:"Seagate BarraCuda 1 TB",desc:"3.5 inch 7200 RPM HDD",price:"$49.99",cost:49.99},
         {id:"ssd",name:"Samsung 850 Evo 250 GB",desc:"2.5 inch Solid State Drive",price:"$59.99",cost:59.99},
         {id:"os",name:"Windows 11 Pro OEM",desc:"64-bit DVD",price:"$129.99",cost:129.99}
       ],
       build: [
-        {id:"cpu2",name:"Intel Core i5-13600K",desc:"3.5 GHz 14-Core Processor",price:"$339.00",cost:339.00,store:"Amazon"},
-        {id:"mb2",name:"MSI PRO B760-P WIFI DDR4",desc:"ATX LGA1700 Motherboard",price:"$159.99",cost:159.99,store:"Amazon"},
+        {id:"bundle",name:"CPU + MB + RAM Bundle",desc:"Ryzen 7 9700X · Gigabyte B650 Gaming X AX V2 · G.Skill Flare X5 32GB DDR5-6000",price:"$699.99",cost:699.99,store:"Micro Center"},
         {id:"case",name:"Lian Li O11D EVO RGB",desc:"ATX Mid Tower Case",price:"$159.99",cost:159.99,store:"Amazon"},
         {id:"gpu",name:"ASUS RTX 5060 Ti Prime OC",desc:"8GB GDDR7 Triple Fan PCIe 5.0",price:"$499.99",cost:499.99,store:"Micro Center member"},
         {id:"psu",name:"MSI MAG A750GL PCIE5",desc:"750 W 80+ Gold Fully Modular",price:"$84.99",cost:84.99,store:"Micro Center"},
