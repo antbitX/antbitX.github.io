@@ -96,24 +96,12 @@
       <span>🏪</span>
       <span class="section-title">Micro Center Cart</span>
       <span class="section-meta">
-        <span class="section-count" id="count-mc">0/2</span>
+        <span class="section-count" id="count-mc">0/3</span>
         <span class="section-total" id="total-mc">$0</span>
       </span>
-      <div class="section-sub">Cart total $854.98 + tax</div>
+      <div class="section-sub">Cart total $1,234.97 + tax</div>
     </div>
     <div class="card" id="mc-list"></div>
-  </section>
-  <section>
-    <div class="section-header">
-      <span>🥚</span>
-      <span class="section-title">Newegg Cart</span>
-      <span class="section-meta">
-        <span class="section-count" id="count-newegg">0/1</span>
-        <span class="section-total" id="total-newegg">$0</span>
-      </span>
-      <div class="section-sub">Cart total $499.99 + tax</div>
-    </div>
-    <div class="card" id="newegg-list"></div>
   </section>
   <section>
     <div class="notes-card">
@@ -151,13 +139,11 @@
       ],
       microcenter: [
         {id:"bundle",name:"CPU + MB + RAM Bundle",desc:"Ryzen 7 7800X3D · Gigabyte X870 Gaming WiFi6 · G.Skill Flare X5 32GB DDR5-6000",price:"$769.99",cost:769.99},
-        {id:"psu",name:"MSI MAG A750GL PCIE5",desc:"750 W 80+ Gold Fully Modular",price:"$84.99",cost:84.99}
-      ],
-      newegg: [
-        {id:"gpu",name:"MSI GeForce RTX 5060 Ti SHADOW 2X OC PLUS",desc:"8GB GDDR7 Dual Fan PCIe 5.0",price:"$499.99",cost:499.99}
+        {id:"psu",name:"MSI MAG A750GL PCIE5",desc:"750 W 80+ Gold Fully Modular",price:"$84.99",cost:84.99},
+        {id:"gpu",name:"MSI GeForce RTX 5060 Ti SHADOW 2X OC PLUS",desc:"8GB GDDR7 Dual Fan PCIe 5.0",price:"$379.99",cost:379.99}
       ]
     };
-    function allItems(){ return DATA.owned.concat(DATA.amazon, DATA.microcenter, DATA.newegg); }
+    function allItems(){ return DATA.owned.concat(DATA.amazon, DATA.microcenter); }
     function money(n){ return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
     function sectionRemaining(arr){
       var sum = 0;
@@ -175,7 +161,6 @@
       document.getElementById("owned-list").innerHTML = DATA.owned.map(renderItem).join("");
       document.getElementById("amazon-list").innerHTML = DATA.amazon.map(renderItem).join("");
       document.getElementById("mc-list").innerHTML = DATA.microcenter.map(renderItem).join("");
-      document.getElementById("newegg-list").innerHTML = DATA.newegg.map(renderItem).join("");
       updateProgress();
     }
     function toggle(id){ state[id] = !state[id]; saveState(state); render(); }
@@ -197,10 +182,8 @@
       document.getElementById("count-owned").textContent = c(DATA.owned);
       document.getElementById("count-amazon").textContent = c(DATA.amazon);
       document.getElementById("count-mc").textContent = c(DATA.microcenter);
-      document.getElementById("count-newegg").textContent = c(DATA.newegg);
       document.getElementById("total-amazon").textContent = money(sectionRemaining(DATA.amazon));
       document.getElementById("total-mc").textContent = money(sectionRemaining(DATA.microcenter));
-      document.getElementById("total-newegg").textContent = money(sectionRemaining(DATA.newegg));
     }
     function resetAll(){ if(confirm("Clear all checkmarks?")){ state={}; saveState(state); render(); } }
     function showAddTip(){ var t=document.getElementById("home-tip"); t.style.display = t.style.display==="block"?"none":"block"; }
